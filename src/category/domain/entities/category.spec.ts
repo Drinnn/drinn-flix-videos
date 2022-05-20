@@ -1,4 +1,4 @@
-import { Category, CategoryProperties } from "./category";
+import { Category } from "./category";
 import { omit } from "lodash";
 
 describe("Category Unit Tests", () => {
@@ -55,5 +55,65 @@ describe("Category Unit Tests", () => {
       name: "Movie",
       createdAt,
     });
+  });
+
+  test("name prop getter", () => {
+    const category = new Category({ name: "Movie" });
+    expect(category.name).toBe("Movie");
+  });
+
+  test("description prop getter and setter", () => {
+    let category = new Category({ name: "Movie" });
+    expect(category.description).toBeNull();
+
+    category = new Category({ name: "Movie", description: "Some description" });
+    expect(category.description).toBe("Some description");
+
+    category = new Category({ name: "Movie" });
+
+    category["description"] = "Edited description";
+    expect(category.description).toBe("Edited description");
+
+    category["description"] = undefined;
+    expect(category.description).toBeNull();
+
+    category["description"] = null;
+    expect(category.description).toBeNull();
+  });
+
+  test("isActive prop getter and setter", () => {
+    let category = new Category({ name: "Movie" });
+    expect(category.isActive).toBeTruthy();
+
+    category = new Category({ name: "Movie", isActive: true });
+    expect(category.isActive).toBeTruthy();
+
+    category = new Category({ name: "Movie", isActive: false });
+    expect(category.isActive).toBeFalsy();
+
+    category = new Category({ name: "Movie", isActive: false });
+
+    category["isActive"] = true;
+    expect(category.isActive).toBeTruthy();
+
+    category = new Category({ name: "Movie" });
+
+    category["isActive"] = false;
+    expect(category.isActive).toBeFalsy();
+
+    category["isActive"] = null;
+    expect(category.isActive).toBeFalsy();
+
+    category["isActive"] = undefined;
+    expect(category.isActive).toBeFalsy();
+  });
+
+  test("createdAt prop getter", () => {
+    let category = new Category({ name: "Movie" });
+    expect(category.createdAt).toBeInstanceOf(Date);
+
+    const now = new Date();
+    category = new Category({ name: "Movie", createdAt: now });
+    expect(category.createdAt).toBe(now);
   });
 });
