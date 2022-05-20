@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  app:
+    container_name: drinn-flix-videos-app
+    build: .
+    volumes:
+      - .:/home/node/app
