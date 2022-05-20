@@ -1,9 +1,20 @@
-import { Category } from "./category";
+import { Category, CategoryProperties } from "./category";
 
-describe("Category Tests", () => {
+describe("Category Unit Tests", () => {
   test("category constructor", () => {
-    const category = new Category("Movie");
+    const now = new Date();
+    const category = new Category({
+      name: "Movie",
+      description: "Some description",
+      isActive: true,
+      createdAt: now,
+    });
 
-    expect(category.name).toBe("Movie");
+    expect(category.props).toStrictEqual({
+      name: "Movie",
+      description: "Some description",
+      isActive: true,
+      createdAt: now,
+    });
   });
 });
