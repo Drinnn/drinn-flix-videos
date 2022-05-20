@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "run:dev": "ts-node"
+    "run:dev": "ts-node",
+    "compile": "tsc"
   },
   "license": "MIT",
   "devDependencies": {
