@@ -1,6 +1,6 @@
 import { Category, CategoryProperties } from "./category";
 import { omit } from "lodash";
-import { validate as uuidValidate } from "uuid";
+import UniqueEntityId from "../../../@seedwork/domain/unique-entity-id.vo";
 
 describe("Category Unit Tests", () => {
   test("category constructor", () => {
@@ -59,25 +59,26 @@ describe("Category Unit Tests", () => {
   });
 
   test("id field", () => {
-    type CategoryData = { props: CategoryProperties; id?: string };
+    type CategoryData = { props: CategoryProperties; id?: UniqueEntityId };
     const data: CategoryData[] = [
       { props: { name: "Movie" } },
       { props: { name: "Movie" }, id: null },
       { props: { name: "Movie" }, id: undefined },
+      { props: { name: "Movie" }, id: new UniqueEntityId() },
     ];
     data.forEach((i) => {
       const category = new Category(i.props, i.id);
       expect(category.id).not.toBeNull();
-      expect(uuidValidate(category.id)).toBeTruthy();
+      expect(category.id).toBeInstanceOf(UniqueEntityId);
     });
 
-    const category = new Category(
-      { name: "Movie" },
-      "4dfacbef-46ea-49f7-8ac1-6420b1cd69bc"
-    );
+    const id = new UniqueEntityId("4dfacbef-46ea-49f7-8ac1-6420b1cd69bc");
+    const category = new Category({ name: "Movie" }, id);
     expect(category.id).not.toBeNull();
-    expect(uuidValidate(category.id)).toBeTruthy();
-    expect(category.id).toBe("4dfacbef-46ea-49f7-8ac1-6420b1cd69bc");
+    expect(category.id).toBeInstanceOf(UniqueEntityId);
+    expect(category.id).toEqual({
+      id: "4dfacbef-46ea-49f7-8ac1-6420b1cd69bc",
+    });
   });
 
   test("name prop getter", () => {
